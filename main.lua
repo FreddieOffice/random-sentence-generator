@@ -1,4 +1,4 @@
--- VERSION 1.0
+-- VERSION 1.31
 
 local nouns = {
     ["proper"] = {"john", "johnson", "jim", "mike", "noah", "isaac", "billy", "bob", "james"}, -- names, countries, etc. phrases with proper nouns dont start with an article
@@ -17,10 +17,12 @@ local prep = {"with", "above", "under", "near", "around"} -- prepositions
 local conjuctions = {"or", "and", "for"}
 local articles = {"the", "that", "this", "my", "their"} -- placed before a common noun
 
-local thingamabobs = {".", "!", "-"} -- characters to put at the end of the sentence
+local endings = {"!", "?", "!?"} -- symbols that may be put at the end of the sentence
 
 local maxAdjectives = 1 -- how many adjectives to use
 local sentenceAmount = 1 -- how many sentences to print
+local addDot = true -- add dot to end of sentence if an ending hasnt been chosen
+local addEndings = true
 
 -- function to make life easier
 function randitem(arr)
@@ -100,10 +102,13 @@ end
 
 function makeSentence()
     local sentence = ""
+    local ending = math.random(1, 6)
     sentence = nounPhrase().." "..verbPhrase()
 
-    if math.random(1, 6) == 1 then
-        sentence = sentence..randitem(thingamabobs)
+    if ending == 1 and addEndings == true then
+        sentence = sentence..randitem(endings)
+    elseif ending ~= 1 and addDot == true then
+        sentence = sentence.."."
     end
 
     return sentence
